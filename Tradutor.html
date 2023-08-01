@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content = "IE-edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tradutor de Idiomas Simples</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Translator Project</h1>
+        <div class="content">
+            <div class="divSelects">
+              <select class="selectFrom"></select>
+              <button id="swap-languages-button">Mudar idioma</button>
+              <select class="selectTo"></select>
+            </div>
+           <div class="divTextareas">
+  <textarea id="textareaFrom" rows="8" placeholder="Digite seu texto"></textarea>
+  <button id="btn-ouvir1">ouvir</button>
+  <textarea id="textareaTo" rows="8" placeholder="Tradução" disabled></textarea>
+  <button id="btn-ouvir2">ouvir</button>
+</div>
+            <button id="btnTranslate">TRADUZIR</button>
+            
+          </div>
+        </div>
+    <script src="Tradutor.js"></script>
+    <!-- 31/07/23 ver com Mona para que fique em baixo E nao do lado direito
+        <footer>
+        <p>Copyright &copy; 2023 Site de Edson. Todos os direitos reservados.</p>
+        <p>Termos de uso | Política de privacidade</p>
+        <p>
+            <a href="https://www.instagram.com/edsonshine_/">Instagram</a> |
+            <a href="https://github.com/EdsonSoma">Github</a> |
+            <a href="https://www.linkedin.com/in/edson-germano-323104209/">Linkedin</a> |
+        </p>
+    </footer> -->
+</body>
+</html>
+
+
+
+<!-- codigo antigo para talvez revizar e apagar <div class="content">
+    <label for="select-from">Idioma de Origem:</label>
+    <select class="selectFrom" id="select-from">
+    </select>
+    <label for="select-to">Idioma de Destino:</label>
+    <select class="selectTo" id="select-to">
+    </select>
+    <div class="input-group">
+        <label for="input-text">Texto a ser traduzido:</label>
+        <textarea id="input-text" placeholder="Digite seu texto aqui" rows="3"></textarea>
+    </div>
+    <div class="input-group">
+        <label for="output-text">Texto traduzido:</label>
+        <textarea id="output-text" rows="3" placeholder="Digite seu texto aqui" readonly></textarea>
+    </div>
+    <button id="translate-btn">Traduzir</button>
+</div>
+<footer>
+    <p>Copyright &copy; 2023 Site de Edson. Todos os direitos reservados.</p>
+    <p>Termos de uso | Política de privacidade</p>
+    <p>
+        <a href="https://www.instagram.com/edsonshine_/">Instagram</a> |
+        <a href="https://github.com/EdsonSoma">Github</a> |
+        <a href="https://www.linkedin.com/in/edson-germano-323104209/">Linkedin</a> |
+    </p>
+</footer> -->
