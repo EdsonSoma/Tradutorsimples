@@ -13,7 +13,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #5740a1;
+  background-color: #1b5d8e;
   color: white;
 }
 
@@ -27,13 +27,14 @@ body::before {
   width: 100%;
   height: 100%;
   background-image: url("https://cdn.pixabay.com/photo/2012/12/10/04/26/flags-69190_1280.jpg");
-  opacity: 0.1;
+  opacity: 0.6;
   background-size: cover;
   background-position: center;
   z-index: -1;
 }
 
 .container {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,13 +80,14 @@ h1 {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 120px;
   border-radius: 5px;
 }
 
 #textareaTo {
   width: 300px;
   height: 150px;
+  position: right;
   font-size: 16px;
   padding: 8px;
   border: 1px solid #ccc;
@@ -116,6 +118,7 @@ h1 {
   width: 50%;
   border-radius: 5px;
   resize: none;
+  border-radius: 1000px;
 }
 
 #swap-languages-button {
@@ -128,13 +131,13 @@ h1 {
   border: none;
   border-radius: 1000px;
   cursor: pointer;
-  transform: scale(0.8);
+  transform: scale(0.6);
   box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2); 
 }
 
-button {
+#btnTranslate {  /* botao de traduçao */
   padding: 10px;
-  font-size: 18px;
+  font-size: 15px;
   border: none;
   background-color: #1c61c2;
   color: white;
@@ -144,15 +147,40 @@ button {
   margin-top: 10px;
   letter-spacing: 1px;
 }
+/* tamanho do ícone de troca de lingua */
+.fa-arrows-alt-h {
+  font-size: 40px;
+}
 
-#btn-ouvir1,
-#btn-ouvir2 {
+#btn-ouvir1 {
+  position: absolute; /* cuidado aqui na posicao do botao */
+  bottom: 5px;
+  left: 5px;
   padding: 10px;
   font-size: 18px;
   border: none;
   background-color: #1c61c2;
   color: white;
-  border-radius: 5px;
+  border-radius: 100px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 1px;
+
+}
+
+
+
+
+#btn-ouvir2 {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  padding: 10px;
+  font-size: 18px;
+  border: none;
+  background-color: #1c61c2;
+  color: white;
+  border-radius: 100px;
   font-weight: 600;
   cursor: pointer;
   margin-top: 10px;
@@ -183,9 +211,9 @@ button:hover {
 }
 
 /* Responsive Styles */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
   .content {
-    padding: 20px;
+    padding: 90px;
   }
 
   .divSelects {
@@ -201,18 +229,8 @@ button:hover {
   }
 
   .divTextareas {
-    flex-direction: column;
-  }
+    position: relative;
 
-  #textareaFrom,
-  #textareaTo {
-    width: 100%;
-    max-width: 300px;
-  }
-
-  #btnTranslate {
-    width: 100%;
   }
 }
-
 /* You can add more media queries for further customization on different screen sizes if needed */
