@@ -1,43 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content = "IE-edge"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE-edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tradutor de Idiomas Simples</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<!--esses são os  metadados-->
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!--esses são os  metadados-->
+  </head>
+  <body>
     <div class="container">
-        <h1>Translator Project</h1>
-        <div class="content">
-            <div class="divSelects">
-              <select class="selectFrom"></select> <!--as caixas de selecao-->
-              <button id="swap-languages-button"> <i class="fas fa-arrows-alt-h"></i> <!-- Ícone de seta interligada --></button>
-              <select class="selectTo"></select> <!--as caixas de selecao-->
-            </div>
-
-           <div class="divTextareas">
-
-            <textarea id="textareaFrom" rows="8" placeholder="Digite seu texto"></textarea>
-            <button id="btn-ouvir1">
-              <i class="fas fa-volume-up"></i> </button>
-
-  <textarea id="textareaTo" rows="8" placeholder="Tradução" disabled></textarea>
-  <button id="btn-ouvir2">
-    <i class="fas fa-volume-up"></i></button>
-
-</div>
-            <button id="btnTranslate">TRADUZIR</button>
-          </div>
+      <h1>Translator Project</h1>
+      <div class="content">
+        <div class="divSelects">
+          <select class="selectFrom"></select>
+          <!--as caixas de selecao-->
+          <button id="swap-languages-button">
+            <i class="fas fa-arrows-alt-h"></i>
+            <!-- Ícone de seta interligada -->
+          </button>
+          <select class="selectTo"></select>
+          <!--as caixas de selecao-->
         </div>
-    <script src="Tradutor.js"></script> <!-- essa linha linka com javascript,nao pode ficar com os metadados la em cima-->
-</body>
+
+        <div class="divTextareas">
+          <textarea
+            id="textareaFrom"
+            rows="8"
+            placeholder="Digite seu texto"
+          ></textarea>
+          <button id="btn-ouvir1">
+            <i class="fas fa-volume-up"></i>
+          </button>
+          <button id="btn-microphone">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+
+          <textarea
+            id="textareaTo"
+            rows="8"
+            placeholder="Tradução"
+            disabled
+          ></textarea>
+          <button id="btn-ouvir2">
+            <i class="fas fa-volume-up"></i>
+          </button>
+        </div>
+        <button id="btnTranslate">TRADUZIR</button>
+      </div>
+    </div>
+    <script src="Tradutor.js"></script>
+    <!-- essa linha ela linka com javascript,nao pode ficar com esse metadados la em cima so aqui-->
+  </body>
 </html>
-  
-<!-- icones >>>>
-    <i class="fas fa-microphone"></i>   Ícone de microfone
-<i class="fas fa-arrows-alt-h"></i>     Ícone de seta interligada
-<i class="fas fa-volume-up"></i>     Ícone de viva-voz -->
+
+<!-- 
+1 colocar pronuncia
+2 colocar funcionabilidade no microfone
+3 botao de detectar Idiomas ao lado do placeholder1 
+4 talvez teclado virtual
+5 corrigir a responsividade no  -->
