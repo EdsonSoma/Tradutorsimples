@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@100;300;400;500;700;900&family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@100;300;400;500;700;900&family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap");
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -17,7 +17,7 @@ body {
   color: white;
 }
 
-/* Pseudo-elemento para o fundo: opacidae */
+/* Pseudo-elemento para o fundo: opacidacidade */
 body::before {
   content: "";
   display: block;
@@ -49,7 +49,8 @@ h1 {
   color: white; /* Mantendo a cor do título como branco */
 }
 
-.content {
+.textarea-container {
+  position: relative;
   padding: 40px;
   background-color: white;
   border-radius: 5px;
@@ -73,15 +74,21 @@ h1 {
   font-size: 18px;
   border-color: #ddd;
   border-radius: 5px;
-  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2); 
+  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2);
 }
 
 .divTextareas {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 120px;
   border-radius: 5px;
+}
+
+textarea {
+  width: 400px;
+  height: 200px;
 }
 
 #textareaTo {
@@ -92,8 +99,12 @@ h1 {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f0f0f0; /* Define uma cor de fundo para diferenciar visualmente da área de texto habilitada */
-  color: #666; /* Define uma cor de texto para torná-la visualmente distinta */
+  background-color: #f0f0f0;
+  color: #664;
+}
+
+/* Aplica o redimensionamento vertical para todos os elementos textarea */
+textarea {
   resize: vertical;
 }
 
@@ -132,10 +143,11 @@ h1 {
   border-radius: 1000px;
   cursor: pointer;
   transform: scale(0.6);
-  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2); 
+  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2);
 }
 
-#btnTranslate {  /* botao de traduçao */
+#btnTranslate {
+  /* botao de traduçao */
   padding: 10px;
   font-size: 15px;
   border: none;
@@ -165,15 +177,11 @@ h1 {
   font-weight: 600;
   cursor: pointer;
   letter-spacing: 1px;
-
 }
-
-
-
 
 #btn-ouvir2 {
   position: absolute;
-  bottom: 5px;
+  bottom: 8px;
   right: 5px;
   padding: 10px;
   font-size: 18px;
@@ -184,6 +192,23 @@ h1 {
   font-weight: 600;
   cursor: pointer;
   margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+#btn-microphone {
+  position: absolute; /* posicao do botao */
+  bottom: 5px;
+  left: 70px;
+  width: 50px; /* Largura do botão */
+  height: 50px; /* Altura do botão */
+  padding: 10px;
+  font-size: 18px;
+  border: none;
+  background-color: #1c61c2;
+  color: white;
+  border-radius: 50%; /* Tornar o botão circular */
+  font-weight: 600;
+  cursor: pointer;
   letter-spacing: 1px;
 }
 
@@ -230,7 +255,6 @@ button:hover {
 
   .divTextareas {
     position: relative;
-
   }
 }
 /* You can add more media queries for further customization on different screen sizes if needed */
