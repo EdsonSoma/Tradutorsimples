@@ -13,16 +13,29 @@ const textarea = document.getElementById("textareaFrom"); // Get the textarea el
 let activeUtterance = null;
 
 const countries = {
-  "pt-BR": "Português",
-  "en-GB": "Inglês",
-  "fr-FR": "Francês",
-  "de-DE": "Alemão",
-  "es-ES": "Espanhol",
-  "ru-RU": "Russo",
+  "pt-BR": "Português (Brasil)",
+  "en-GB": "Inglês (Reino Unido)",
+  "fr-FR": "Francês (França)",
+  "de-DE": "Alemão (Alemanha)",
+  "es-ES": "Espanhol (Espanha)",
+  "ru-RU": "Russo (Rússia)",
   "zh-CN": "Chinês (Mandarim)",
-  "it-IT": "Italiano",
-  "ja-JP": "Japonês",
-  "ar-SA": "Árabe",
+  "it-IT": "Italiano (Itália)",
+  "ja-JP": "Japonês (Japão)",
+  "ar-SA": "Árabe (Arábia Saudita)",
+  "hi-IN": "Hindi (Índia)",
+  "bn-BD": "Bengali (Bangladesh)",
+  "pt-PT": "Português (Portugal)",
+  "ur-PK": "Urdu (Paquistão)",
+  "tr-TR": "Turco (Turquia)",
+  "nl-NL": "Holandês (Países Baixos)",
+  "el-GR": "Grego (Grécia)",
+  "pl-PL": "Polonês (Polônia)",
+  "sv-SE": "Sueco (Suécia)",
+  "id-ID": "Indonésio (Indonésia)",
+  "ko-KR": "Coreano (Coreia do Sul)",
+  "th-TH": "Tailandês (Tailândia)",
+  "vi-VN": "Vietnamita (Vietnã)",
 };
 
 for (let countryCode in countries) {
@@ -35,7 +48,7 @@ swapLanguagesButton.addEventListener("click", function () {
     targetLanguageSelect.value,
     sourceLanguageSelect.value,
   ];
-}); /*bloco de cod. 25-35. troca de linguagem */
+}); /*bloco de cod.for é troca de linguagem */
 
 btnTranslate.addEventListener("click", () => {
   const textToTranslate = textareaFrom.value.trim();
