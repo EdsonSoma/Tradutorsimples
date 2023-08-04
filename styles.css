@@ -8,16 +8,17 @@
 }
 
 body {
+  font-family: Arial, sans-serif;
   width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #1b5d8e;
+  background-color: #4392F1;
   color: white;
 }
 
-/* Pseudo-elemento para o fundo: opacidacidade */
+/* Pseudo-elemento para o fundo: opacidacidade 
 body::before {
   content: "";
   display: block;
@@ -30,11 +31,11 @@ body::before {
   opacity: 0.6;
   background-size: cover;
   background-position: center;
-  z-index: -1;
+  z-index: -1; 
 }
-
+*/
 .container {
-  position: relative;
+  position: relative; /*remove  */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,10 +45,30 @@ body::before {
 }
 
 h1 {
+  font-size: 56px; /* Definir  o tamanho */
   letter-spacing: 4px;
-  text-align: center;
+  text-align: center;  /*remove  */
   color: white; /* Mantendo a cor do título como branco */
 }
+
+
+.content {
+  padding: 15px;
+  box-shadow: 0 1px 2px #0003; /*esse bloco e para a borda branca em volta dos elementos */
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.divSelects {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /*remove  */
+  gap: 10px;
+}
+
 
 .textarea-container {
   position: relative;
@@ -58,12 +79,7 @@ h1 {
   flex-direction: column;
 }
 
-.divSelects {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-}
+
 
 .selectFrom,
 .selectTo {
@@ -78,18 +94,15 @@ h1 {
 }
 
 .divTextareas {
-  position: relative;
+  position: relative; /*remove  */
   display: flex;
-  flex-direction: row;
-  align-items: center;
   gap: 120px;
   border-radius: 5px;
+  flex-direction: row;
+  align-items: center;
+ 
 }
 
-textarea {
-  width: 400px;
-  height: 200px;
-}
 
 #textareaTo {
   width: 300px;
@@ -101,11 +114,15 @@ textarea {
   border-radius: 5px;
   background-color: #f0f0f0;
   color: #664;
+  resize: none; /* resise Permite redimensionar */
+  overflow: hidden; /* Esconde a barra de redimensionamento */
 }
 
 /* Aplica o redimensionamento vertical para todos os elementos textarea */
 textarea {
   resize: vertical;
+  width: 400px;
+  height: 200px;
 }
 
 #textareaFrom {
@@ -116,8 +133,9 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f0f0f0; /* Define uma cor de fundo para diferenciar visualmente da área de texto habilitada */
-  color: #666; /* Define uma cor de texto para torná-la visualmente distinta */
-  resize: vertical;
+  color: #664; /* Define uma cor de texto para torná-la visualmente distinta */
+  resize: none; /* o none Desabilita o redimensionamento, outras opcoes como o vertical, pode redimencionar a area do texto */ /* Permite redimensionar verticalmente */
+  overflow: hidden; /* Esconde a barra de redimensionamento */
 }
 
 #input-text,
@@ -133,7 +151,7 @@ textarea {
 }
 
 #swap-languages-button {
-  background-color: #1c61c2;
+  background-color: #4392F1;
   color: white;
   padding: 10px 20px;
   width: 100px;
@@ -151,7 +169,7 @@ textarea {
   padding: 10px;
   font-size: 15px;
   border: none;
-  background-color: #1c61c2;
+  background-color: #4392F1;
   color: white;
   border-radius: 5px;
   font-weight: 600;
@@ -171,7 +189,7 @@ textarea {
   padding: 10px;
   font-size: 18px;
   border: none;
-  background-color: #1c61c2;
+  background-color: #4392F1;
   color: white;
   border-radius: 100px;
   font-weight: 600;
@@ -186,7 +204,7 @@ textarea {
   padding: 10px;
   font-size: 18px;
   border: none;
-  background-color: #1c61c2;
+  background-color: #4392F1;
   color: white;
   border-radius: 100px;
   font-weight: 600;
@@ -204,7 +222,7 @@ textarea {
   padding: 10px;
   font-size: 18px;
   border: none;
-  background-color: #1c61c2;
+  background-color: #4392F1;
   color: white;
   border-radius: 50%; /* Tornar o botão circular */
   font-weight: 600;
@@ -236,11 +254,13 @@ button:hover {
 }
 
 /* Responsive Styles */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768) {
   .content {
     padding: 90px;
   }
-
+  @media screen and (min-width: 769px) {
+    /* Estilos para quando a largura da tela é maior que 768 pixels (tela deitada) */
+  }
   .divSelects {
     flex-direction: column;
     align-items: flex-start;
@@ -257,4 +277,3 @@ button:hover {
     position: relative;
   }
 }
-/* You can add more media queries for further customization on different screen sizes if needed */
