@@ -11,18 +11,22 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <!--esses são os metadados-->
+  
+<!-- <select id="selectVoices"></select> essa linha mostra a saida de audio em outras linguas-->
+
   </head>
   <body>
     <div class="container">
       <h1>Translator Project</h1>
-      <br>
+      <br />
       <!--titulo do projeto-->
       <div class="content">
         <div class="divSelects">
           <select class="selectFrom"></select>
           <!--as caixas de selecao-->
-          <button id="swap-languages-button">
+          <button class="hover-button" id="swap-languages-button">
             <i class="fas fa-arrows-alt-h"></i>
+            <span class="button-name">Alternar idiomas</span>
             <!-- Ícone de seta interligada -->
           </button>
           <select class="selectTo"></select>
@@ -34,23 +38,31 @@
             id="textareaFrom"
             rows="8"
             placeholder="Digite seu texto"
-          ></textarea>
-          <button id="btn-ouvir1">
+          ></textarea>  
+          <button class="hover-button" id="btn-ouvir1"> <!-- A classe "hover-button" é para fazer a aparição da palavra no css -->
             <i class="fas fa-volume-up"></i>
+            <span class="button-name">Ouvir</span>
           </button>
           <!--botao de ouvir-->
-          <button id="btn-microphone">
+          <button class="hover-button" id="btn-limpar" onclick="limparTexto()">
+            <i class="fa-solid fa-x"></i>
+            <span class="button-name">Limpar texto</span>
+        </button> 
+        <!--botao de limpar texto-->
+          <button class="hover-button" id="btn-microphone">
             <i class="fa-solid fa-microphone"></i>
+            <span class="button-name">Traduzir por voz</span>
           </button>
-          <!--botao de gravar-->
+          <!-- botao de "Microfone" ao passar o mouse -->
           <textarea
             id="textareaTo"
             rows="8"
             placeholder="Tradução"
             disabled
           ></textarea>
-          <button id="btn-ouvir2">
+          <button class="hover-button" id="btn-ouvir2">
             <i class="fas fa-volume-up"></i>
+            <span class="button-name">Ouvir</span>
             <!--botao de ouvir-->
           </button>
         </div>
@@ -63,10 +75,11 @@
       <p>Copyright &copy; 2023 Site de Edson. Todos os direitos reservados.</p>
       <p>Termos de uso | Política de privacidade</p>
       <p>
-          <a href="https://www.instagram.com/edsonshine_/">Instagram</a> |
-          <a href="https://github.com/EdsonSoma">Github</a> |
-          <a href="https://www.linkedin.com/in/edson-germano-323104209/">Linkedin</a> |
+        <a href="https://www.instagram.com/edsonshine_/">Instagram</a> |
+        <a href="https://github.com/EdsonSoma">Github</a> |
+        <a href="https://www.linkedin.com/in/edson-germano-323104209/"
+          >Linkedin</a>|
       </p>
-  </footer>
+    </footer>
   </body>
 </html>
