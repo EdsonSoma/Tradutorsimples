@@ -1,3 +1,4 @@
+let activeUtterance = null;
 const textareaFrom = document.getElementById("textareaFrom");
 const textareaTo = document.getElementById("textareaTo");
 const btnTranslate = document.getElementById("btnTranslate");
@@ -9,8 +10,14 @@ const btnOuvir2 = document.getElementById("btn-ouvir2");
 const btnMicrophone = document.getElementById("btn-microphone");
 const faMicrophone = document.querySelector(".fa-solid.fa-microphone");
 const textarea = document.getElementById("textareaFrom"); // Get the textarea element
+const selectVoices = document.getElementById("selectVoices"); //eu n sei se isso aqui ta certo//
 
-let activeUtterance = null;
+let voices = [];
+speechSynthesis.onvoiceschanged = function () {
+  voices = speechSynthesis.getVoices();
+  console.log(voices);
+  listarVozes(); // Adicione essa linha para preencher o dropdown com as vozes disponíveis.
+};
 
 const countries = {
   "pt-BR": "Português (Brasil)",
@@ -92,7 +99,6 @@ function falarTexto(texto) {
   activeUtterance = utterance;
   speechSynthesis.speak(utterance);
 }
-
 btnOuvir1.addEventListener("click", function () {
   const textoEntrada = textareaFrom.value;
   falarTexto(textoEntrada);
@@ -103,7 +109,13 @@ btnOuvir2.addEventListener("click", function () {
   falarTexto(textoSaida);
 });
 
-// Verificar se o navegador suporta a API de Reconhecimento de Fala
+function limparTexto() {
+  // Seleciona o elemento textarea pelo ID e define o valor como uma string vazia
+  document.getElementById('textareaFrom').value = '';
+}
+
+
+// Verificar se o navegador suporta a API de Reconhecimento de Fala (funcionabilidade do microfo)
 if ("webkitSpeechRecognition" in window) {
   const recognition = new webkitSpeechRecognition();
 
