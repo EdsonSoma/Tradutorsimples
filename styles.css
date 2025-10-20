@@ -1,317 +1,216 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@100;300;400;500;700;900&family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap");
+/* ========================================
+   TRANSLATOR PROJECT - JAVASCRIPT
+======================================== */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+const textareaFrom = document.getElementById("textareaFrom");
+const textareaTo = document.getElementById("textareaTo");
+const btnTranslate = document.getElementById("btnTranslate");
+const sourceLanguageSelect = document.querySelector(".selectFrom");
+const targetLanguageSelect = document.querySelector(".selectTo");
+const swapLanguagesButton = document.getElementById("swap-languages-button");
+const btnOuvir1 = document.getElementById("btn-ouvir1");
+const btnOuvir2 = document.getElementById("btn-ouvir2");
+const btnMicrophone = document.getElementById("btn-microphone");
+const btnLimpar = document.getElementById("btn-limpar");
+
+let activeUtterance = null;
+
+const countries = {
+    "pt-BR": "Português (Brasil)",
+    "en-GB": "Inglês (Reino Unido)",
+    "fr-FR": "Francês (França)",
+    "de-DE": "Alemão (Alemanha)",
+    "es-ES": "Espanhol (Espanha)",
+    "ru-RU": "Russo (Rússia)",
+    "zh-CN": "Chinês (Mandarim)",
+    "it-IT": "Italiano (Itália)",
+    "ja-JP": "Japonês (Japão)",
+    "ar-SA": "Árabe (Arábia Saudita)",
+    "hi-IN": "Hindi (Índia)",
+    "bn-BD": "Bengali (Bangladesh)",
+    "pt-PT": "Português (Portugal)",
+    "ur-PK": "Urdu (Paquistão)",
+    "tr-TR": "Turco (Turquia)",
+    "nl-NL": "Holandês (Países Baixos)",
+    "el-GR": "Grego (Grécia)",
+    "pl-PL": "Polonês (Polônia)",
+    "sv-SE": "Sueco (Suécia)",
+    "id-ID": "Indonésio (Indonésia)",
+    "ko-KR": "Coreano (Coreia do Sul)",
+    "th-TH": "Tailandês (Tailândia)",
+    "vi-VN": "Vietnamita (Vietnã)",
+};
+
+function initializeLanguageSelects() {
+    for (let countryCode in countries) {
+        const option = `<option value="${countryCode}">${countries[countryCode]}</option>`;
+        sourceLanguageSelect.insertAdjacentHTML("beforeend", option);
+        targetLanguageSelect.insertAdjacentHTML("beforeend", option);
+    }
+    sourceLanguageSelect.value = "pt-BR";
+    targetLanguageSelect.value = "en-GB";
 }
 
-body {
-  font-family: Arial, sans-serif;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #3672bb;
-  color: white;
+swapLanguagesButton.addEventListener("click", function () {
+    [sourceLanguageSelect.value, targetLanguageSelect.value] = [
+        targetLanguageSelect.value,
+        sourceLanguageSelect.value,
+    ];
+    [textareaFrom.value, textareaTo.value] = [
+        textareaTo.value,
+        textareaFrom.value
+    ];
+});
+
+btnTranslate.addEventListener("click", () => {
+    const textToTranslate = textareaFrom.value.trim();
+    const sourceLanguage = sourceLanguageSelect.value;
+    const targetLanguage = targetLanguageSelect.value;
+
+    if (!textToTranslate) {
+        alert("Por favor, digite um texto para traduzir.");
+        return;
+    }
+
+    if (sourceLanguage === targetLanguage) {
+        alert("Por favor, selecione idiomas diferentes.");
+        return;
+    }
+
+    textareaTo.value = "Traduzindo...";
+    textareaTo.classList.add('translating');
+    btnTranslate.disabled = true;
+    
+    loadTranslation(textToTranslate, sourceLanguage, targetLanguage);
+});
+
+function loadTranslation(text, sourceLang, targetLang) {
+    const apiURL = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang}|${targetLang}`;
+    
+    fetch(apiURL)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Erro na tradução");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            textareaTo.value = data.responseData.translatedText;
+            textareaTo.classList.remove('translating');
+            btnTranslate.disabled = false;
+        })
+        .catch((error) => {
+            textareaTo.value = "Erro na tradução. Tente novamente.";
+            textareaTo.classList.remove('translating');
+            btnTranslate.disabled = false;
+            console.error("Erro:", error);
+        });
 }
 
-/* Pseudo-elemento para o fundo: opacidacidade 
-body::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("https://cdn.pixabay.com/photo/2012/12/10/04/26/flags-69190_1280.jpg");
-  opacity: 0.6;
-  background-size: cover;
-  background-position: center;
-  z-index: -1; 
-}
-*/
-.container {
-  position: relative; /*remove  */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 10px;
-  margin: 5px;
+function falarTexto(texto) {
+    if (!texto) {
+        alert("Não há texto para reproduzir.");
+        return;
+    }
+
+    if (activeUtterance) {
+        speechSynthesis.cancel();
+    }
+
+    const utterance = new SpeechSynthesisUtterance(texto);
+    activeUtterance = utterance;
+    utterance.rate = 1;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+    
+    speechSynthesis.speak(utterance);
 }
 
-h1 {
-  font-size: 56px; /* Definir  o tamanho */
-  letter-spacing: 4px;
-  text-align: center; /*remove  */
-  color: white; /* Mantendo a cor do título como branco */
+btnOuvir1.addEventListener("click", function () {
+    falarTexto(textareaFrom.value);
+});
+
+btnOuvir2.addEventListener("click", function () {
+    falarTexto(textareaTo.value);
+});
+
+btnLimpar.addEventListener("click", function() {
+    textareaFrom.value = '';
+    textareaTo.value = '';
+    textareaFrom.focus();
+});
+
+if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    recognition.continuous = false;
+    recognition.lang = "pt-BR";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = function () {
+        console.log("🎤 Reconhecimento iniciado");
+        btnMicrophone.style.color = "#e74c3c";
+        btnMicrophone.disabled = true;
+    };
+
+    recognition.onresult = function (event) {
+        const result = event.results[0][0].transcript;
+        textareaFrom.value = result;
+    };
+
+    recognition.onerror = function (event) {
+        console.error("Erro:", event.error);
+        let errorMessage = "Erro ao reconhecer voz.";
+        
+        switch(event.error) {
+            case 'no-speech':
+                errorMessage = "Nenhuma fala detectada.";
+                break;
+            case 'audio-capture':
+                errorMessage = "Microfone não encontrado.";
+                break;
+            case 'not-allowed':
+                errorMessage = "Permissão negada.";
+                break;
+        }
+        
+        alert(errorMessage);
+    };
+
+    recognition.onend = function () {
+        console.log("🛑 Reconhecimento finalizado");
+        btnMicrophone.style.color = "#667eea";
+        btnMicrophone.disabled = false;
+    };
+
+    btnMicrophone.addEventListener("click", function () {
+        try {
+            recognition.start();
+        } catch (error) {
+            console.error("Erro ao iniciar:", error);
+        }
+    });
+} else {
+    console.warn("⚠️ Reconhecimento de voz não suportado");
+    btnMicrophone.disabled = true;
+    btnMicrophone.style.opacity = "0.5";
 }
 
-.content {
-  padding: 15px;
-  box-shadow: 0 1px 2px #0003; /*esse bloco e para a borda branca em volta dos elementos */
-  background-color: white;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
+document.addEventListener("keydown", function(event) {
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+        event.preventDefault();
+        btnTranslate.click();
+    }
+    
+    if ((event.ctrlKey || event.metaKey) && event.key === "l") {
+        event.preventDefault();
+        btnLimpar.click();
+    }
+});
 
-.divSelects {
-  display: flex;
-  flex-direction: row;
-  align-items: center; /*remove  */
-  gap: 10px;
-}
-
-.textarea-container {
-  position: relative;
-  padding: 40px;
-  background-color: white;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-}
-
-.selectFrom,
-.selectTo {
-  width: 300px;
-  padding: 10px;
-  cursor: pointer;
-  outline: none;
-  font-size: 18px;
-  border-color: #ddd;
-  border-radius: 5px;
-  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2);
-}
-
-.divTextareas {
-  position: relative; /*remove  */
-  display: flex;
-  gap: 120px;
-  border-radius: 5px;
-  flex-direction: row;
-  align-items: center;
-}
-
-#textareaTo {
-  width: 300px;
-  height: 150px;
-  position: right;
-  font-size: 16px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f0f0f0;
-  color: #664;
-  resize: none; /* resise Permite redimensionar */
-  overflow: hidden; /* Esconde a barra de redimensionamento */
-}
-
-/* Aplica o redimensionamento vertical para todos os elementos textarea */
-textarea {
-  resize: vertical;
-  width: 400px;
-  height: 200px;
-}
-
-#textareaFrom {
-  width: 300px;
-  height: 150px;
-  font-size: 16px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f0f0f0; /* Define uma cor de fundo para diferenciar visualmente da área de texto habilitada */
-  color: #664; /* Define uma cor de texto para torná-la visualmente distinta */
-  resize: none; /* o none Desabilita o redimensionamento, outras opcoes como o vertical, pode redimencionar a area do texto */ /* Permite redimensionar verticalmente */
-  overflow: hidden; /* Esconde a barra de redimensionamento */
-}
-
-#input-text,
-#output-text {
-  border-color: #ddd;
-  outline: none;
-  padding: 5px;
-  font-size: 18px;
-  width: 50%;
-  border-radius: 5px;
-  resize: none;
-  border-radius: 1000px;
-}
-
-#swap-languages-button {
-  background-color: transparent;
-  color: #4392f1;
-  padding: 10px 20px;
-  width: 100px;
-  height: 99px;
-  font-size: 23px;
-  border: none;
-  border-radius: 1000px;
-  cursor: pointer;
-  transform: scale(0.6);
-  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2);
-}
-
-#btnTranslate {
-  /* botao de traduçao */
-  padding: 10px;
-  font-size: 15px;
-  border: none;
- background-color: #4392f1;
-  color: white;
-  border-radius: 5px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 10px;
-  letter-spacing: 1px;
-}
-/* tamanho do ícone de troca de lingua */
-.fa-arrows-alt-h {
-  font-size: 40px;
-}
-
-#btn-ouvir1 {
-  position: absolute; /* cuidado aqui na posicao do botao */
-  bottom: 5px;
-  left: 5px;
-  padding: 10px;
-  font-size: 18px;
-  border: none;
-  background-color: transparent;
-  color: #4392f1;
-  border-radius: 50%;
-  cursor: pointer;
-  letter-spacing: 1px;
-  
-}
-
-#btn-ouvir2 {
-  position: absolute;
-  bottom: 8px;
-  right: 5px;
-  padding: 10px;
-  font-size: 18px;
-  border: none;
-  background-color: transparent;
-  color: #4392f1;
-  border-radius: 50%;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-#btn-microphone {
-  position: absolute; /* posicao do botao */
-  bottom: 4px;
-  left: 55px;
-  width: 50px; /* Largura do botão */
-  height: 50px; /* Altura do botão */
-  padding: 10px;
-  font-size: 18px;
-  border: none;
-  background-color: transparent;
-  color: #4392f1;
-  border-radius: 50%; /* Tornar o botão circular */
-  cursor: pointer;
-}
-
-#btn-limpar {
-position: absolute; /* posicao do botao */
-  bottom: 100px;
-  left: 250px;
-  width: 50px; /* Largura do botão */
-  height: 50px; /* Altura do botão */
-  padding: 10px;
-  font-size: 18px;
-  border: none;
-  background-color: transparent;
-  color: #4392f1;
-  border-radius: 50%; /* Tornar o botão circular */
-  cursor: pointer;
-}
-
-.hover-button {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  position: relative;
- /* box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2);  fazer teste de usabiliade */
-  
-}
-
-.hover-button .button-name {
-  display: none;
-  background-color: #6ddcf0;
-  color: #333;
-  padding: 5px 10px;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  border-radius: 5px;
-  
-}
-
-.hover-button:hover .button-name {
-  display: block;
-  
-}
-
-footer {
-  background-color: rgba(67, 146, 241, 1);
-  text-align: center;
-  padding: 20px;
-  border-top: 1px solid #ccc;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 100px; /* Defina a altura desejada para o rodapé em pixels */
-}
-
-.footer a {
-  background-color: #f0f0f0;
-  padding: 10px;
-  display: block;
-  width: 100%;
-}
-
-.footer a:hover {
-  text-decoration: underline;
-}
-
-/* Estilos para dispositivos com largura menor que 768 pixels (celulares) */
-@media screen and (max-width: 768px) {
-  .content {
-    /* Estilos para o conteúdo principal em celulares */
-    height: auto; /* Remover a altura fixa para que o conteúdo determine a altura */
-    padding: 20px; /* Ajuste o padding conforme necessário para celulares */
-  }
-
-  .divSelects {
-    /* Estilos para as divs contendo os selects em celulares */
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .selectFrom,
-  .selectTo {
-    /* Estilos para os selects em celulares */
-    width: 100%;
-    max-width: 300px;
-    margin-bottom: 10px;
-  }
-
-  .divTextareas {
-    /* Estilos para a div contendo os textareas em celulares */
-    position: static; /* Remover a posição relativa para ajuste ao conteúdo */
-  }
-}
+window.addEventListener("DOMContentLoaded", function() {
+    initializeLanguageSelects();
+    console.log("✅ Translator inicializado!");
+});
