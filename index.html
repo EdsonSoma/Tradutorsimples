@@ -1,85 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE-edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tradutor de Idiomas Simples</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <!--esses são os metadados-->
-  
-<!-- <select id="selectVoices"></select> essa linha mostra a saida de audio em outras linguas-->
-
-  </head>
-  <body>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Tradutor de idiomas com reconhecimento de voz e síntese de fala">
+    <meta name="author" content="Edson Germano">
+    <title>Tradutor de Idiomas</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
     <div class="container">
-      <h1>Translator Project</h1>
-      <br />
-      <!--titulo do projeto-->
-      <div class="content">
-        <div class="divSelects">
-          <select class="selectFrom"></select>
-          <!--as caixas de selecao-->
-          <button class="hover-button" id="swap-languages-button">
-            <i class="fas fa-arrows-alt-h"></i>
-            <span class="button-name">Alternar idiomas</span>
-            <!-- Ícone de seta interligada -->
-          </button>
-          <select class="selectTo"></select>
-          <!--as caixas de selecao-->
-        </div>
+        <h1>Translator Project</h1>
+        
+        <div class="content">
+            <!-- Seleção de Idiomas -->
+            <div class="divSelects">
+                <select class="selectFrom" aria-label="Idioma de origem"></select>
+                
+                <button id="swap-languages-button" class="tooltip" data-tooltip="Alternar idiomas" aria-label="Trocar idiomas">
+                    <i class="fas fa-arrows-alt-h"></i>
+                </button>
+                
+                <select class="selectTo" aria-label="Idioma de destino"></select>
+            </div>
 
-        <div class="divTextareas">
-          <textarea
-            id="textareaFrom"
-            rows="8"
-            placeholder="Digite seu texto"
-          ></textarea>  
-          <button class="hover-button" id="btn-ouvir1"> <!-- A classe "hover-button" é para fazer a aparição da palavra no css -->
-            <i class="fas fa-volume-up"></i>
-            <span class="button-name">Ouvir</span>
-          </button>
-          <!--botao de ouvir-->
-          <button class="hover-button" id="btn-limpar" onclick="limparTexto()">
-            <i class="fa-solid fa-x"></i>
-            <span class="button-name">Limpar texto</span>
-        </button> 
-        <!--botao de limpar texto-->
-          <button class="hover-button" id="btn-microphone">
-            <i class="fa-solid fa-microphone"></i>
-            <span class="button-name">Traduzir por voz</span>
-          </button>
-          <!-- botao de "Microfone" ao passar o mouse -->
-          <textarea
-            id="textareaTo"
-            rows="8"
-            placeholder="Tradução"
-            disabled
-          ></textarea>
-          <button class="hover-button" id="btn-ouvir2">
-            <i class="fas fa-volume-up"></i>
-            <span class="button-name">Ouvir</span>
-            <!--botao de ouvir-->
-          </button>
+            <!-- Áreas de Texto -->
+            <div class="divTextareas">
+                <!-- Textarea de Entrada -->
+                <div class="textarea-wrapper">
+                    <textarea 
+                        id="textareaFrom" 
+                        placeholder="Digite seu texto" 
+                        rows="8"
+                        aria-label="Texto para traduzir"
+                    ></textarea>
+                    <div class="textarea-controls">
+                        <button class="icon-btn tooltip" id="btn-ouvir1" data-tooltip="Ouvir" aria-label="Ouvir texto">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <button class="icon-btn tooltip" id="btn-microphone" data-tooltip="Falar" aria-label="Reconhecimento de voz">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
+                        <button class="icon-btn tooltip" id="btn-limpar" data-tooltip="Limpar" aria-label="Limpar texto">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Textarea de Saída -->
+                <div class="textarea-wrapper">
+                    <textarea 
+                        id="textareaTo" 
+                        placeholder="Tradução" 
+                        rows="8" 
+                        disabled
+                        aria-label="Texto traduzido"
+                    ></textarea>
+                    <div class="textarea-controls right">
+                        <button class="icon-btn tooltip" id="btn-ouvir2" data-tooltip="Ouvir" aria-label="Ouvir tradução">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão de Tradução -->
+            <button id="btnTranslate">TRADUZIR</button>
         </div>
-        <button id="btnTranslate">TRADUZIR</button>
-      </div>
     </div>
-    <script src="Tradutor.js"></script>
-    <!-- essa linha ela linka com javascript,nao pode ficar com esse metadados la em cima so aqui-->
+
+    <!-- Rodapé -->
     <footer>
-      <p>Copyright &copy; 2023 Site de Edson. Todos os direitos reservados.</p>
-      <p>Termos de uso | Política de privacidade</p>
-      <p>
-        <a href="https://www.instagram.com/edsonshine_/">Instagram</a> |
-        <a href="https://github.com/EdsonSoma">Github</a> |
-        <a href="https://www.linkedin.com/in/edson-germano-323104209/"
-          >Linkedin</a>|
-      </p>
+        <p>Copyright &copy; 2023 Site de Edson. Todos os direitos reservados.</p>
+        <p>Termos de uso | Política de privacidade</p>
+        <p>
+            <a href="https://www.instagram.com/edsonshine_/" target="_blank" rel="noopener noreferrer">Instagram</a> |
+            <a href="https://github.com/EdsonSoma" target="_blank" rel="noopener noreferrer">Github</a> |
+            <a href="https://www.linkedin.com/in/edson-germano-323104209/" target="_blank" rel="noopener noreferrer">Linkedin</a>
+        </p>
     </footer>
-  </body>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
 </html>
