@@ -1,216 +1,322 @@
-/* ========================================
-   TRANSLATOR PROJECT - JAVASCRIPT
-======================================== */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
-const textareaFrom = document.getElementById("textareaFrom");
-const textareaTo = document.getElementById("textareaTo");
-const btnTranslate = document.getElementById("btnTranslate");
-const sourceLanguageSelect = document.querySelector(".selectFrom");
-const targetLanguageSelect = document.querySelector(".selectTo");
-const swapLanguagesButton = document.getElementById("swap-languages-button");
-const btnOuvir1 = document.getElementById("btn-ouvir1");
-const btnOuvir2 = document.getElementById("btn-ouvir2");
-const btnMicrophone = document.getElementById("btn-microphone");
-const btnLimpar = document.getElementById("btn-limpar");
-
-let activeUtterance = null;
-
-const countries = {
-    "pt-BR": "Português (Brasil)",
-    "en-GB": "Inglês (Reino Unido)",
-    "fr-FR": "Francês (França)",
-    "de-DE": "Alemão (Alemanha)",
-    "es-ES": "Espanhol (Espanha)",
-    "ru-RU": "Russo (Rússia)",
-    "zh-CN": "Chinês (Mandarim)",
-    "it-IT": "Italiano (Itália)",
-    "ja-JP": "Japonês (Japão)",
-    "ar-SA": "Árabe (Arábia Saudita)",
-    "hi-IN": "Hindi (Índia)",
-    "bn-BD": "Bengali (Bangladesh)",
-    "pt-PT": "Português (Portugal)",
-    "ur-PK": "Urdu (Paquistão)",
-    "tr-TR": "Turco (Turquia)",
-    "nl-NL": "Holandês (Países Baixos)",
-    "el-GR": "Grego (Grécia)",
-    "pl-PL": "Polonês (Polônia)",
-    "sv-SE": "Sueco (Suécia)",
-    "id-ID": "Indonésio (Indonésia)",
-    "ko-KR": "Coreano (Coreia do Sul)",
-    "th-TH": "Tailandês (Tailândia)",
-    "vi-VN": "Vietnamita (Vietnã)",
-};
-
-function initializeLanguageSelects() {
-    for (let countryCode in countries) {
-        const option = `<option value="${countryCode}">${countries[countryCode]}</option>`;
-        sourceLanguageSelect.insertAdjacentHTML("beforeend", option);
-        targetLanguageSelect.insertAdjacentHTML("beforeend", option);
-    }
-    sourceLanguageSelect.value = "pt-BR";
-    targetLanguageSelect.value = "en-GB";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-swapLanguagesButton.addEventListener("click", function () {
-    [sourceLanguageSelect.value, targetLanguageSelect.value] = [
-        targetLanguageSelect.value,
-        sourceLanguageSelect.value,
-    ];
-    [textareaFrom.value, textareaTo.value] = [
-        textareaTo.value,
-        textareaFrom.value
-    ];
-});
-
-btnTranslate.addEventListener("click", () => {
-    const textToTranslate = textareaFrom.value.trim();
-    const sourceLanguage = sourceLanguageSelect.value;
-    const targetLanguage = targetLanguageSelect.value;
-
-    if (!textToTranslate) {
-        alert("Por favor, digite um texto para traduzir.");
-        return;
-    }
-
-    if (sourceLanguage === targetLanguage) {
-        alert("Por favor, selecione idiomas diferentes.");
-        return;
-    }
-
-    textareaTo.value = "Traduzindo...";
-    textareaTo.classList.add('translating');
-    btnTranslate.disabled = true;
-    
-    loadTranslation(textToTranslate, sourceLanguage, targetLanguage);
-});
-
-function loadTranslation(text, sourceLang, targetLang) {
-    const apiURL = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang}|${targetLang}`;
-    
-    fetch(apiURL)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Erro na tradução");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            textareaTo.value = data.responseData.translatedText;
-            textareaTo.classList.remove('translating');
-            btnTranslate.disabled = false;
-        })
-        .catch((error) => {
-            textareaTo.value = "Erro na tradução. Tente novamente.";
-            textareaTo.classList.remove('translating');
-            btnTranslate.disabled = false;
-            console.error("Erro:", error);
-        });
+body {
+    font-family: "Poppins", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    padding-bottom: 120px;
 }
 
-function falarTexto(texto) {
-    if (!texto) {
-        alert("Não há texto para reproduzir.");
-        return;
-    }
-
-    if (activeUtterance) {
-        speechSynthesis.cancel();
-    }
-
-    const utterance = new SpeechSynthesisUtterance(texto);
-    activeUtterance = utterance;
-    utterance.rate = 1;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-    
-    speechSynthesis.speak(utterance);
+.container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
 }
 
-btnOuvir1.addEventListener("click", function () {
-    falarTexto(textareaFrom.value);
-});
-
-btnOuvir2.addEventListener("click", function () {
-    falarTexto(textareaTo.value);
-});
-
-btnLimpar.addEventListener("click", function() {
-    textareaFrom.value = '';
-    textareaTo.value = '';
-    textareaFrom.focus();
-});
-
-if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-
-    recognition.continuous = false;
-    recognition.lang = "pt-BR";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onstart = function () {
-        console.log("🎤 Reconhecimento iniciado");
-        btnMicrophone.style.color = "#e74c3c";
-        btnMicrophone.disabled = true;
-    };
-
-    recognition.onresult = function (event) {
-        const result = event.results[0][0].transcript;
-        textareaFrom.value = result;
-    };
-
-    recognition.onerror = function (event) {
-        console.error("Erro:", event.error);
-        let errorMessage = "Erro ao reconhecer voz.";
-        
-        switch(event.error) {
-            case 'no-speech':
-                errorMessage = "Nenhuma fala detectada.";
-                break;
-            case 'audio-capture':
-                errorMessage = "Microfone não encontrado.";
-                break;
-            case 'not-allowed':
-                errorMessage = "Permissão negada.";
-                break;
-        }
-        
-        alert(errorMessage);
-    };
-
-    recognition.onend = function () {
-        console.log("🛑 Reconhecimento finalizado");
-        btnMicrophone.style.color = "#667eea";
-        btnMicrophone.disabled = false;
-    };
-
-    btnMicrophone.addEventListener("click", function () {
-        try {
-            recognition.start();
-        } catch (error) {
-            console.error("Erro ao iniciar:", error);
-        }
-    });
-} else {
-    console.warn("⚠️ Reconhecimento de voz não suportado");
-    btnMicrophone.disabled = true;
-    btnMicrophone.style.opacity = "0.5";
+h1 {
+    font-size: clamp(28px, 5vw, 56px);
+    letter-spacing: 2px;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-document.addEventListener("keydown", function(event) {
-    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
-        event.preventDefault();
-        btnTranslate.click();
-    }
-    
-    if ((event.ctrlKey || event.metaKey) && event.key === "l") {
-        event.preventDefault();
-        btnLimpar.click();
-    }
-});
+.content {
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px;
+}
 
-window.addEventListener("DOMContentLoaded", function() {
-    initializeLanguageSelects();
-    console.log("✅ Translator inicializado!");
-});
+.divSelects {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.selectFrom,
+.selectTo {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    background-color: #f9f9f9;
+    font-family: "Poppins", sans-serif;
+}
+
+.selectFrom:focus,
+.selectTo:focus {
+    border-color: #667eea;
+}
+
+#swap-languages-button {
+    background-color: #667eea;
+    color: white;
+    padding: 12px;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#swap-languages-button:hover {
+    background-color: #5568d3;
+    transform: rotate(180deg);
+}
+
+.divTextareas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.textarea-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 12px;
+    padding-bottom: 45px;
+    font-size: 16px;
+    font-family: "Poppins", sans-serif;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    resize: vertical;
+    transition: border-color 0.3s;
+    background-color: #f9f9f9;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+#textareaTo {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.textarea-controls {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    display: flex;
+    gap: 5px;
+}
+
+.textarea-controls.right {
+    left: auto;
+    right: 8px;
+}
+
+.icon-btn {
+    background-color: transparent;
+    color: #667eea;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.icon-btn:hover {
+    background-color: rgba(102, 126, 234, 0.1);
+    transform: scale(1.1);
+}
+
+.icon-btn:active {
+    transform: scale(0.95);
+}
+
+.icon-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 12px;
+    margin-bottom: 5px;
+    z-index: 10;
+}
+
+#btnTranslate {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+#btnTranslate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+#btnTranslate:active {
+    transform: translateY(0);
+}
+
+#btnTranslate:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.translating {
+    animation: pulse 1.5s infinite;
+}
+
+footer {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-size: 14px;
+    z-index: 10;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+footer a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+        padding-bottom: 180px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .content {
+        padding: 15px;
+    }
+
+    .divSelects {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .selectFrom,
+    .selectTo {
+        width: 100%;
+        min-width: unset;
+    }
+
+    #swap-languages-button {
+        transform: rotate(90deg);
+        margin: 10px 0;
+    }
+
+    #swap-languages-button:hover {
+        transform: rotate(270deg);
+    }
+
+    .divTextareas {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    textarea {
+        min-height: 120px;
+    }
+
+    footer {
+        font-size: 12px;
+        padding: 15px 10px;
+    }
+}
+```
+
+5. Commit: "Update styles.css with responsive design"
+
+---
+
+## ✅ Pronto! Agora vai funcionar perfeitamente! 🎉
+
+Aguarde 1-2 minutos e acesse seu site:
+```
+https://seu-usuario.github.io/translator-project/
