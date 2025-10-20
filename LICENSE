@@ -1,0 +1,78 @@
+# ========================================
+# TRANSLATOR PROJECT - .gitignore
+# ========================================
+
+# Arquivos do Sistema Operacional
+# ========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDEs e Editores
+# ========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos de Log
+# ========================================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependências (caso adicione no futuro)
+# ========================================
+node_modules/
+bower_components/
+jspm_packages/
+
+# Arquivos de Build (caso adicione build)
+# ========================================
+dist/
+build/
+.cache/
+
+# Arquivos Temporários
+# ========================================
+*.tmp
+*.temp
+.temp/
+tmp/
+
+# Arquivos de Backup
+# ========================================
+*.bak
+*.backup
+*~
+
+# Variáveis de Ambiente
+# ========================================
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Coverage (caso adicione testes)
+# ========================================
+coverage/
+.nyc_output/
+
+# Outros
+# ========================================
+.sass-cache/
+*.css.map
+*.js.map
